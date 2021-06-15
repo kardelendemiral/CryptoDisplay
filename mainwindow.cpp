@@ -5,10 +5,13 @@
 #include <QTableWidgetItem>
 #include <vector>
 #include <map>
+#include <fstream>
+#include <QFile>
 #include <utility>
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
+#include <QProcessEnvironment>
 
 using namespace std;
 
@@ -19,6 +22,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     TableWidgetDisplay();
+
+    // QNetworkAccessManager *manager = new QNetworkAccessManager(this) ;
 }
 
 
@@ -29,9 +34,25 @@ MainWindow::~MainWindow()
 
 void MainWindow::TableWidgetDisplay()
 {
+    int rc = 0;
+    QString fileName = qgetenv("MYCRYPTOCONVERT"); //burda file acmaya calıstım ama acılmıyo env variableı set ettiğim halde sebebini anlamadım
+    vector<QString> coins;
+    /*QFile inputFile(fileName);
+    if (inputFile.open(QIODevice::ReadOnly))
+    {
+       QTextStream in(&inputFile);
+       while (!in.atEnd())
+       {
+          QString line = in.readLine();
+          coins.push_back(line);
+          rc++;
+       }
+       inputFile.close();
+    }*/
+
     map<QString, vector<float>> data;
     data["Bitcoin"] = {3.112,5.112,9.18}; //datayı cekip koycaz, 0-> usd, 1-> eur, 2-> gbp
-    int rc = 5; //kac tane coin varsa bu onun sayısı
+    rc = 5;//kac tane coin varsa bu onun sayısı
     QTableWidget *table = new QTableWidget(this);
     table->setRowCount(rc);
     table->setColumnCount(3);
