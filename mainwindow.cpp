@@ -51,7 +51,9 @@ void MainWindow::TableWidgetDisplay()
     }
 
     map<QString, vector<float>> data;
-    data["Bitcoin"] = {3.112,5.112,9.18}; //datayı cekip koycaz, 0-> usd, 1-> eur, 2-> gbp
+    data["Bitcoin"] = {32988,27092,23299}; //datayı cekip koycaz, 0-> usd, 1-> eur, 2-> gbp
+    data["Ethereum"] = {2300.58, 2000.09,1900.22};
+
     QTableWidget *table = new QTableWidget(this);
     table->setRowCount(rc);
     table->setColumnCount(3);
@@ -59,8 +61,14 @@ void MainWindow::TableWidgetDisplay()
     this->setCentralWidget(table);
 
     QStringList hlabels;
+    QStringList vlabels;
+
+    for(int i=0;i< coins.size();i++){
+        vlabels << coins[i];
+    }
     hlabels << "USD" << "EUR" << "GBP";
     table->setHorizontalHeaderLabels(hlabels);
+    table->setVerticalHeaderLabels(vlabels);
 
     map<QString, vector<float>>::iterator it;
     int row = 0;
