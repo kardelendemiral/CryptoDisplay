@@ -34,8 +34,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::TableWidgetDisplay()
 {
-    int rc = 0;
-    QString fileName = qgetenv("MYCRYPTOCONVERT"); //burda file actım ama env variableı kalıcı olarak set edemedigim icin acılmadı
+    int rc = 0; //coin sayısı
+    QString fileName = qgetenv("MYCRYPTOCONVERT"); //burda file actım yazılcak coinlerin namelerini vektore koydum
     vector<QString> coins;
     QFile inputFile(fileName);
     if (inputFile.open(QIODevice::ReadOnly))
@@ -52,7 +52,7 @@ void MainWindow::TableWidgetDisplay()
 
     map<QString, vector<float>> data;
     data["Bitcoin"] = {3.112,5.112,9.18}; //datayı cekip koycaz, 0-> usd, 1-> eur, 2-> gbp
-    rc = 5; //kac tane coin varsa bu onun sayısı
+     //kac tane coin varsa bu onun sayısı
     QTableWidget *table = new QTableWidget(this);
     table->setRowCount(rc);
     table->setColumnCount(3);
