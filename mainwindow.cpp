@@ -52,7 +52,6 @@ void MainWindow::TableWidgetDisplay()
 
     map<QString, vector<float>> data;
     data["Bitcoin"] = {3.112,5.112,9.18}; //datayı cekip koycaz, 0-> usd, 1-> eur, 2-> gbp
-     //kac tane coin varsa bu onun sayısı
     QTableWidget *table = new QTableWidget(this);
     table->setRowCount(rc);
     table->setColumnCount(3);
