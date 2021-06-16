@@ -8,10 +8,12 @@
 #include <fstream>
 #include <QFile>
 #include <utility>
+#include <iostream>
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
 #include <QProcessEnvironment>
+#include "coinhandler.h"
 
 using namespace std;
 
@@ -21,15 +23,23 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    TableWidgetDisplay();
+    //TableWidgetDisplay();
 
-    // QNetworkAccessManager *manager = new QNetworkAccessManager(this) ;
+    vector<QString> q = {"eth", "btc"};
+    CoinHandler* handler = new CoinHandler(q);
+    connect(handler, SIGNAL(ready(std::map<QString,std::vector<double> >*)), this, SLOT(dataReady(std::map<QString,std::vector<double> >*)));
+
 }
 
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::dataReady(map<QString, vector<double> > *data)
+{
+    cout << (*data)["bitcoin"][0] << endl;
 }
 
 void MainWindow::TableWidgetDisplay()

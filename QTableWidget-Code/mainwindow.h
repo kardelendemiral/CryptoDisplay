@@ -18,6 +18,9 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+public slots:
+    void dataReady(std::map<QString, std::vector<double>>* data);
+
 private:
     Ui::MainWindow *ui;
 
