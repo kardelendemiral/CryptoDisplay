@@ -95,7 +95,16 @@ void MainWindow::TableWidgetDisplay(map<QString, vector<double> > *data)
         for(int i=0; i<vec.size() ;i++){
 
             QTableWidgetItem *item = new QTableWidgetItem;
-            double val = vec[i];
+
+            int j;
+
+            if(i==0)
+                j=2;
+            if(i==1)
+                j=0;
+            if(i==2)
+                j=1;
+            double val = vec[j];
 
             item->setText(QString::number(val));
             table->setItem(row,i,item);
