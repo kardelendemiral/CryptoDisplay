@@ -16,6 +16,8 @@
 #include "coinhandler.h"
 
 using namespace std;
+int rc=0;
+vector<QString> q;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -25,7 +27,21 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //TableWidgetDisplay();
 
-    vector<QString> q = {"eth", "btc"};
+    QString fileName = qgetenv("MYCRYPTOCONVERT"); //burda file actım yazılcak coinlerin namelerini vektore koydum
+    QFile inputFile(fileName);
+    if (inputFile.open(QIODevice::ReadOnly))
+    {
+       QTextStream in(&inputFile);
+       while (!in.atEnd())
+       {
+          QString line = in.readLine();
+          q.push_back(line);
+          rc++;
+       }
+       inputFile.close();
+    }
+
+    //vector<QString> q = {"eth", "btc"};
     CoinHandler* handler = new CoinHandler(q);
     connect(handler, SIGNAL(ready(std::map<QString,std::vector<double> >*)), this, SLOT(dataReady(std::map<QString,std::vector<double> >*)));
 
@@ -39,30 +55,16 @@ MainWindow::~MainWindow()
 
 void MainWindow::dataReady(map<QString, vector<double> > *data)
 {
-    cout << (*data)["bitcoin"][0] << endl;
+    TableWidgetDisplay(data);
 }
 
-void MainWindow::TableWidgetDisplay()
+void MainWindow::TableWidgetDisplay(map<QString, vector<double> > *data)
 {
-    int rc = 0; //coin sayısı
-    QString fileName = qgetenv("MYCRYPTOCONVERT"); //burda file actım yazılcak coinlerin namelerini vektore koydum
-    vector<QString> coins;
-    QFile inputFile(fileName);
-    if (inputFile.open(QIODevice::ReadOnly))
-    {
-       QTextStream in(&inputFile);
-       while (!in.atEnd())
-       {
-          QString line = in.readLine();
-          coins.push_back(line);
-          rc++;
-       }
-       inputFile.close();
-    }
 
-    map<QString, vector<float>> data;
-    data["Bitcoin"] = {32988,27092,23299}; //datayı cekip koycaz, 0-> usd, 1-> eur, 2-> gbp
-    data["Ethereum"] = {2300.58, 2000.09,1900.22};
+
+    //map<QString, vector<float>> data;
+   // data["Bitcoin"] = {32988,27092,23299}; //datayı cekip koycaz, 0-> usd, 1-> eur, 2-> gbp
+    //data["Ethereum"] = {2300.58, 2000.09,1900.22};
 
     QTableWidget *table = new QTableWidget(this);
     table->setRowCount(rc);
@@ -73,27 +75,27 @@ void MainWindow::TableWidgetDisplay()
     QStringList hlabels;
     QStringList vlabels;
 
-    for(int i=0;i< coins.size();i++){
-        vlabels << coins[i];
-    }
+    /*for(int i=0;i< q.size();i++){
+        vlabels << q[i];
+    }*/
     hlabels << "USD" << "EUR" << "GBP";
     table->setHorizontalHeaderLabels(hlabels);
-    table->setVerticalHeaderLabels(vlabels);
 
-    map<QString, vector<float>>::iterator it;
+    map<QString, vector<double>>::iterator it;
     int row = 0;
-    for(it = data.begin(); it != data.end(); it++){
+    for(it = (*data).begin(); it != (*data).end(); it++){
 
         QTableWidgetItem *item = new QTableWidgetItem;
 
         QString coinName = it->first;
+        vlabels << coinName;
 
-        vector<float> vec = it->second;
+        vector<double> vec = it->second;
 
         for(int i=0; i<vec.size() ;i++){
 
             QTableWidgetItem *item = new QTableWidgetItem;
-            float val = vec[i];
+            double val = vec[i];
 
             item->setText(QString::number(val));
             table->setItem(row,i,item);
@@ -102,6 +104,9 @@ void MainWindow::TableWidgetDisplay()
 
         row++;
     }
+
+     delete data;
+     table->setVerticalHeaderLabels(vlabels);
 
 
 

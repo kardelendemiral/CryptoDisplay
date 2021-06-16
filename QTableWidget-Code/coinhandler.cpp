@@ -38,8 +38,9 @@ void CoinHandler::replyCoins(QNetworkReply *reply, vector<QString> coins){
     {
         for(vector<QString>::iterator ktr = coins.begin(); ktr != coins.end(); ktr++)
         {
-            QString id = (*itr)["id"].toString();
-            QString symbol = (*itr)["symbol"].toString();
+            QJsonObject obj = (*itr).toObject();
+            QString id = obj["id"].toString();
+            QString symbol = obj["symbol"].toString();
             if((*ktr) == id or (*ktr) == symbol)
             {
                 coins.erase(ktr);

@@ -6,6 +6,8 @@
 #include <utility>
 #include <vector>
 
+using namespace std;
+
 namespace Ui {
 class MainWindow;
 }
@@ -24,7 +26,7 @@ public slots:
 private:
     Ui::MainWindow *ui;
 
-    void TableWidgetDisplay();
+    void TableWidgetDisplay(map<QString, vector<double> > *data);
 };
 
 #endif // MAINWINDOW_H
