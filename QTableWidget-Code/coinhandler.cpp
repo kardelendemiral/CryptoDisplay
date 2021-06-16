@@ -73,7 +73,7 @@ void CoinHandler::replyConversions(QNetworkReply *reply, vector<QString> names)
 {
     QJsonObject doc(QJsonDocument::fromJson(reply->readAll()).object());
     delete reply;
-
+    auto ktr = names.begin();
     for(auto itr = doc.constBegin();itr != doc.constEnd(); itr++)
     {
         vector<double> conv;
@@ -82,8 +82,8 @@ void CoinHandler::replyConversions(QNetworkReply *reply, vector<QString> names)
         {
             conv.push_back((*ktr).toDouble());
         }
-        data[names.back()] = conv;
-        names.pop_back();
+        data[*ktr] = conv;
+        ktr++;
     }
 
 
