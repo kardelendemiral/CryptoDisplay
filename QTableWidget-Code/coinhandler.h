@@ -21,7 +21,7 @@ class CoinHandler : public QObject
 public slots:
 
     void replyCoins(QNetworkReply *reply, std::vector<QString> coins);
-    void replyConversions(QNetworkReply *reply);
+    void replyConversions(QNetworkReply *reply, std::vector<QString> names);
 
 signals:
     void ready(std::map<QString, std::vector<double>>* data);

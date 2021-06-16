@@ -33,6 +33,7 @@ void CoinHandler::replyCoins(QNetworkReply *reply, vector<QString> coins){
     QJsonArray doc(QJsonDocument::fromJson(reply->readAll()).array());
     delete reply;
     vector<QString> new_coins;
+    vector<QString> names;
 
     for(QJsonArray::const_iterator itr = doc.begin();itr != doc.end(); itr++)
     {
@@ -41,10 +42,12 @@ void CoinHandler::replyCoins(QNetworkReply *reply, vector<QString> coins){
             QJsonObject obj = (*itr).toObject();
             QString id = obj["id"].toString();
             QString symbol = obj["symbol"].toString();
-            if((*ktr) == id or (*ktr) == symbol)
+            QString name = obj["nsme"].toString();
+            if((*ktr) == id or (*ktr) == symbol or (*ktr) == name)
             {
                 coins.erase(ktr);
                 new_coins.push_back(id);
+                names.push_back(name);
                 break;
             }
         }
@@ -63,10 +66,10 @@ void CoinHandler::replyCoins(QNetworkReply *reply, vector<QString> coins){
 
     QNetworkRequest coinR(QUrl("https://api.coingecko.com/api/v3/simple/price?ids="+c+"&vs_currencies=usd,eur,gbp"));
     QNetworkReply *reply2 = manager->get(coinR);
-    connect(reply2, &QNetworkReply::finished, this, [=](){replyConversions(reply2);});
+    connect(reply2, &QNetworkReply::finished, this, [=](){replyConversions(reply2,names);});
 }
 
-void CoinHandler::replyConversions(QNetworkReply *reply)
+void CoinHandler::replyConversions(QNetworkReply *reply, vector<QString> names)
 {
     QJsonObject doc(QJsonDocument::fromJson(reply->readAll()).object());
     delete reply;
@@ -79,7 +82,8 @@ void CoinHandler::replyConversions(QNetworkReply *reply)
         {
             conv.push_back((*ktr).toDouble());
         }
-        data[itr.key()] = conv;
+        data[names.back()] = conv;
+        names.pop_back();
     }
 
 
