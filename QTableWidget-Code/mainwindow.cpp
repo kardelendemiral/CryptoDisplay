@@ -64,6 +64,7 @@ void MainWindow::TableWidgetDisplay(map<QString, vector<double> > *data) //the m
     table->setColumnCount(3); //the table has a constant number of columns which are for USD, EUR and GBP
 
     this->setCentralWidget(table); //this widget has its central widget as this table
+    this->setWindowTitle("Crypto Display");
 
     QStringList hlabels;
     QStringList vlabels;
