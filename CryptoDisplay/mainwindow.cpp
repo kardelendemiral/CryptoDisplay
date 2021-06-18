@@ -60,7 +60,7 @@ void MainWindow::TableWidgetDisplay(map<QString, vector<double> > *data) //the m
 {
 
     QTableWidget *table = new QTableWidget(this); //the main table to be displayed
-    table->setRowCount(rc); //row count is calculated when reading the input file in the constructor. he tables has to have this many rows
+    table->setRowCount(rc); //row count is calculated when reading the input file in the constructor. the table has to have this many rows
     table->setColumnCount(3); //the table has a constant number of columns which are for USD, EUR and GBP
 
     this->setCentralWidget(table); //this widget has its central widget as this table
