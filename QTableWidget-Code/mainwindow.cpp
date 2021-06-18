@@ -56,7 +56,7 @@ void MainWindow::dataReady(map<QString, vector<double> > *data) //this function 
     TableWidgetDisplay(data);
 }
 
-void MainWindow::TableWidgetDisplay(map<QString, vector<double> > *data)
+void MainWindow::TableWidgetDisplay(map<QString, vector<double> > *data) //the main function that constructs the table
 {
 
     QTableWidget *table = new QTableWidget(this); //the main table to be displayed 
