@@ -12,9 +12,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
 
-
-
-    MainWindow w;
+    MainWindow w; //create the table and show it
     w.show();
     QApplication::quit();
 
